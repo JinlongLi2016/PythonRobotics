@@ -117,6 +117,7 @@ class FrenetPath:
 
 
 def calc_frenet_paths(c_speed, c_d, c_d_d, c_d_dd, s0):
+    """根据s0, 纵向速度c_speed, d, d', d''计算frenet路径"""
     frenet_paths = []
 
     # generate path to each offset goal
@@ -127,6 +128,7 @@ def calc_frenet_paths(c_speed, c_d, c_d_d, c_d_dd, s0):
             fp = FrenetPath()
 
             # lat_qp = quintic_polynomial(c_d, c_d_d, c_d_dd, di, 0.0, 0.0, Ti)
+            ## 五次多项式:[ c_d, c_d', c_d'', target_d, target_d'(0), target_d''(0) ]
             lat_qp = QuinticPolynomial(c_d, c_d_d, c_d_dd, di, 0.0, 0.0, Ti)
 
             fp.t = [t for t in np.arange(0.0, Ti, DT)]
@@ -134,7 +136,8 @@ def calc_frenet_paths(c_speed, c_d, c_d_d, c_d_dd, s0):
             fp.d_d = [lat_qp.calc_first_derivative(t) for t in fp.t]
             fp.d_dd = [lat_qp.calc_second_derivative(t) for t in fp.t]
             fp.d_ddd = [lat_qp.calc_third_derivative(t) for t in fp.t]
-
+            
+            # 纵向 motion planning
             # Longitudinal motion planning (Velocity keeping)
             for tv in np.arange(TARGET_SPEED - D_T_S * N_S_SAMPLE,
                                 TARGET_SPEED + D_T_S * N_S_SAMPLE, D_T_S):
@@ -152,6 +155,7 @@ def calc_frenet_paths(c_speed, c_d, c_d_d, c_d_dd, s0):
                 # square of diff from target speed
                 ds = (TARGET_SPEED - tfp.s_d[-1]) ** 2
 
+                # Cost d/ Cost v/ Cost ?
                 tfp.cd = K_J * Jp + K_T * Ti + K_D * tfp.d[-1] ** 2
                 tfp.cv = K_J * Js + K_T * Ti + K_D * ds
                 tfp.cf = K_LAT * tfp.cd + K_LON * tfp.cv
