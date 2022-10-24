@@ -12,6 +12,7 @@ Ref:
 - [Optimal trajectory generation for dynamic street scenarios in a Frenet Frame]
 (https://www.youtube.com/watch?v=Cj6tAQe7UCY)
 
+网络他人[解读](https://www.notion.so/Frenet-Optimal-Trajectory-Generation-for-Dynamic-Street-Scenarios-in-a-Frenet-Frame-96d5bced98c146d2a9036a1d5fc2b21d#7d8875eaa9f94678b713f74d9e1bd776)
 """
 
 import numpy as np
