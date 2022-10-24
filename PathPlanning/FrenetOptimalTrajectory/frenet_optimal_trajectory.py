@@ -269,10 +269,10 @@ def main():
                    [35.0, 8.0],
                    [50.0, 3.0]
                    ])
-
+    # 由way points构成的目标航线(参考线线)
     tx, ty, tyaw, tc, csp = generate_target_course(wx, wy)
 
-    # initial state
+    # initial state: 速度,d,d',d'', s0(初始s位置)
     c_speed = 10.0 / 3.6  # current speed [m/s]
     c_d = 2.0  # current lateral position [m]
     c_d_d = 0.0  # current lateral speed [m/s]
