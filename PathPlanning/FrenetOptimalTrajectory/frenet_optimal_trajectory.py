@@ -167,6 +167,7 @@ def calc_frenet_paths(c_speed, c_d, c_d_d, c_d_dd, s0):
 
 
 def calc_global_paths(fplist, csp):
+    # future point list, cubic spline
     for fp in fplist:
 
         # calc global positions
