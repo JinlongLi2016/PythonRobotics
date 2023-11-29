@@ -177,20 +177,28 @@ def calc_lane_states(l_center, l_heading, l_width, v_width, d, nxy):
 
 
 def sample_states(angle_samples, a_min, a_max, d, p_max, p_min, nh):
+    """给定当前位置朝向及每个位置可行驶的朝向选择(方向盘转角),计算当前位置的目标state(x, y, yaw)"""
     states = []
     for i in angle_samples:
+        # 计算自车当前位置航向角
         a = a_min + (a_max - a_min) * i
 
         for j in range(nh):
+            # 计算沿着当前朝向前进的位置(在enu系下的)
             xf = d * math.cos(a)
             yf = d * math.sin(a)
+
+            # 计算目标位置的航向角
             if nh == 1:
                 yawf = (p_max - p_min) / 2 + a
             else:
                 yawf = p_min + (p_max - p_min) * j / (nh - 1) + a
+
+            # 添加状态到列表中
             states.append([xf, yf, yawf])
 
     return states
+
 
 
 def uniform_terminal_state_sampling_test1():
